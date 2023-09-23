@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="pl">
       <body className={poppins.className}>
         <Navigation />
-        <div className="h-[calc(100vh-(72px+44px))]">{children}</div>
+        <div className="flex flex-1 flex-col">{children}</div>
         <Footer />
       </body>
     </html>
