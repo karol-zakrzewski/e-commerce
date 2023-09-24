@@ -1,13 +1,13 @@
 import { Product } from "@/app/lib/products/types";
 import { getJoiningType } from "@/app/lib/products/utils";
 import Image from "next/image";
-import { ButtonHTMLAttributes, PropsWithChildren, ReactNode } from "react";
-import { IconType } from "react-icons";
+import Link from "next/link";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
 type Props = { product: Product };
 
 export const ProductCard = ({ product }: Props) => {
-  const { name, images, isAvailable, material, endType } = product;
+  const { _id: id, name, images, isAvailable, material, endType } = product;
   const [mainImage] = images;
   // TODO: change product model on the backend:  move material field to main props, add endType
   const joiningType = getJoiningType(material);
@@ -24,7 +24,9 @@ export const ProductCard = ({ product }: Props) => {
       <p>Typ łączenia: {joiningType}</p>
       <p>Zakończenie: {endType}</p>
       <ProductStatus isAvailable={isAvailable} />
-      <Button icon={<FaCartShopping />}>Zobacz szcegóły</Button>
+      <Link href={`/product/${id}`}>
+        <Button icon={<FaCartShopping />}>Zobacz szcegóły</Button>
+      </Link>
     </div>
   );
 };
@@ -52,7 +54,7 @@ export const Button = ({
   return (
     <button
       {...props}
-      className="bg-brand-orange flex items-center justify-center gap-2 rounded-full px-6 py-2 text-white"
+      className="flex items-center justify-center gap-2 rounded-full bg-brand-orange px-6 py-2 text-white"
     >
       {icon} {children}
     </button>
