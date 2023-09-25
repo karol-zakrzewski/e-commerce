@@ -3,7 +3,7 @@ import { ResponseApi } from "@/app/lib/types";
 import { Product } from "@/app/lib/products/types";
 
 export const getProducts = async (): Promise<
-  ResponseApi.Error | ResponseApi.Success
+  ResponseApi.Error | ResponseApi.Success<Product[]>
 > => {
   try {
     const data = await axios.get<Product[]>(
@@ -27,6 +27,37 @@ export const getProducts = async (): Promise<
       success: false,
       error: "Failed to fetch products",
       data: null,
+    };
+  }
+};
+
+export const getProduct = async (
+  id: string,
+): Promise<ResponseApi.Error | ResponseApi.Success<Product>> => {
+  try {
+    const data = await axios.get<Product>(
+      `https://gf-ecommerce.vercel.app/api/products/${id}`,
+    );
+
+    return {
+      success: true,
+      error: null,
+      data: data.data,
+    };
+  } catch (error) {
+    const errorData = {
+      success: false as const,
+      data: null,
+    };
+    if (error instanceof Error) {
+      return {
+        ...errorData,
+        error: error.message,
+      };
+    }
+    return {
+      ...errorData,
+      error: "Failed to fetch product",
     };
   }
 };

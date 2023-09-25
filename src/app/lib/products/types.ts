@@ -7,7 +7,7 @@ type Seal = "FKM" | "EPDM" | "PTFE";
 
 type Material = "PVC-U" | "PP-H" | "PE" | "PVDF";
 
-type ProductVariant = {
+export type ProductVariant = {
   code: number;
   price: number;
   dimensions: Dimension[];

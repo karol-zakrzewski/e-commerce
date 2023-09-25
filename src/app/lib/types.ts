@@ -1,10 +1,10 @@
 import { Product } from "@/app/lib/products/types";
 
 export namespace ResponseApi {
-  export type Success = {
+  export type Success<T> = {
     error: null;
     success: true;
-    data: Product[];
+    data: T;
   };
 
   export type Error = {

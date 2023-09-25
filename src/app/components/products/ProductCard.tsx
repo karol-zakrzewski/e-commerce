@@ -9,8 +9,8 @@ type Props = { product: Product };
 export const ProductCard = ({ product }: Props) => {
   const { _id: id, name, images, isAvailable, material, endType } = product;
   const [mainImage] = images;
-  // TODO: change product model on the backend:  move material field to main props, add endType
   const joiningType = getJoiningType(material);
+
   return (
     <div className="flex flex-col gap-1.5 rounded-lg p-4 pt-0 text-sm shadow-2xl">
       <Image
