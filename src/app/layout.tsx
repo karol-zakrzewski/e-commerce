@@ -1,7 +1,10 @@
-import { Navigation } from "@/app/components/layout/Navigation";
+import { Navigation } from "@/components/layout/Navigation";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { NextAuthProvider } from "@/app/Providers/provider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/tools";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,16 +16,20 @@ export const metadata: Metadata = {
   description: "Amazing e-commerce with valves, pips and fittings",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+  console.log("🚀  session:", session);
   return (
     <html lang="pl">
       <body className={poppins.className}>
-        <Navigation />
-        {children}
+        <NextAuthProvider session={session}>
+          <Navigation />
+          {children}
+        </NextAuthProvider>
         <Footer />
       </body>
     </html>

@@ -1,7 +1,7 @@
-import { ProductCard } from "@/app/components/products/ProductCard";
-import { Breadcrumb } from "@/app/components/ui/Breadcrumb";
-import { getProduct } from "@/app/lib/products";
-import { ProductVariant } from "@/app/lib/products/types";
+import { ProductCard } from "@/components/products/ProductCard";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { getProduct } from "@/lib/products";
+import { ProductVariant } from "@/lib/products/types";
 
 const ProductDetails = async ({ params }: { params: { id: string } }) => {
   const data = await getProduct(params.id);
@@ -52,7 +52,7 @@ const ProductDetails = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export const TableRow = ({ variant }: { variant: ProductVariant }) => {
+const TableRow = ({ variant }: { variant: ProductVariant }) => {
   const { code, dimensions, price, stock } = variant;
   const [mainDimension] = dimensions;
   return (
