@@ -1,6 +1,6 @@
 import axios from "axios";
-import { ResponseApi } from "@/app/lib/types";
-import { Product } from "@/app/lib/products/types";
+import { ResponseApi } from "@/lib/types";
+import { Product } from "@/lib/products/types";
 
 export const getProducts = async (): Promise<
   ResponseApi.Error | ResponseApi.Success<Product[]>

@@ -1,4 +1,4 @@
-import { Product } from "@/app/lib/products/types";
+import { Product } from "@/lib/products/types";
 
 export namespace ResponseApi {
   export type Success<T> = {

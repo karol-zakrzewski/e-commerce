@@ -1,5 +1,5 @@
-import { Product } from "@/app/lib/products/types";
-import { getJoiningType } from "@/app/lib/products/utils";
+import { Product } from "@/lib/products/types";
+import { getJoiningType } from "@/lib/products/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { ButtonHTMLAttributes, ReactNode } from "react";
