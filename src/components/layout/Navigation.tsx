@@ -15,7 +15,9 @@ export const Navigation = () => {
       </ul>
       <ul className="flex items-center justify-around gap-4">
         <li>
-          <FaCartShopping />
+          <Link href="/cart">
+            <FaCartShopping />
+          </Link>
         </li>
         <li>
           <Link href="/api/auth/signin">

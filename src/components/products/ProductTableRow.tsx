@@ -46,11 +46,10 @@ export const TableRow = ({
               return;
             }
             await addToCart({
-              product: productId,
+              productId,
               productVariant: {
                 code: variant.code,
                 count: Number(inputRef.current.value),
-                price: variant.price,
               },
             });
           }}

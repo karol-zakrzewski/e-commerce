@@ -28,7 +28,6 @@ export const authOptions: AuthOptions = {
         );
 
         const user = await res.json();
-        console.log("🚀  user:", user);
 
         if (!user) {
           return null;

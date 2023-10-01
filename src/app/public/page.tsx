@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 
 export default async function Protected(req: NextRequest): Promise<any> {
   const session = await getServerSession(authOptions);
-  console.log(session);
 
   return (
     <div className="grid grid-cols-2 p-4">
