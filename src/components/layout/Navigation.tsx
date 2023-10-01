@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaCartShopping, FaRegUser, FaMagnifyingGlass } from "react-icons/fa6";
 
 export const Navigation = () => {
@@ -5,7 +6,9 @@ export const Navigation = () => {
     <nav className="sticky top-0 z-10 flex items-center justify-between bg-white p-6 shadow-md">
       <h2>Strefa zaworów</h2>
       <ul className="flex items-center justify-around gap-4">
-        <li>Strona główna</li>
+        <li>
+          <Link href="/">Strona główna</Link>
+        </li>
         <li>O nas</li>
         <li>Polityka prywatności</li>
         <li>Kontakt</li>
@@ -15,7 +18,9 @@ export const Navigation = () => {
           <FaCartShopping />
         </li>
         <li>
-          <FaRegUser />
+          <Link href="/api/auth/signin">
+            <FaRegUser />
+          </Link>
         </li>
         <li>
           <FaMagnifyingGlass />
