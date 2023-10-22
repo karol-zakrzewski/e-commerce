@@ -1,8 +1,6 @@
-import { authOptions } from "@/lib/auth/tools";
 import { Cart } from "@/lib/cart/types";
 import { ResponseApi } from "@/lib/types";
 import axios from "axios";
-import { getServerSession } from "next-auth/next";
 import { getSession } from "next-auth/react";
 
 type CartItem = {
@@ -48,7 +46,7 @@ export const getUserCart = async (): Promise<
   ResponseApi.Error | ResponseApi.Success<Cart>
 > => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");
