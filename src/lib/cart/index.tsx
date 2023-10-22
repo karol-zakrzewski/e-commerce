@@ -7,34 +7,35 @@ import { getSession } from "next-auth/react";
 
 type CartItem = {
   productId: string;
-  productVariant: {
+  productVariants: {
     code: number;
     count: number;
-  };
+  }[];
 };
 
-export const addToCart = async ({ productId, productVariant }: CartItem) => {
+export const addToCart = async ({ productId, productVariants }: CartItem) => {
   try {
     const session = await getSession();
-    // @ts-ignore
-    const jwt = session?.user?.token;
+
+    if (!session) {
+      throw Error("Please authenticate. Cannot get auth session");
+    }
+
+    const jwt = session.user.token;
 
     const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify({
-        cart: [
-          {
-            _id: productId,
-            count: productVariant.count,
-            code: productVariant.code,
-          },
-        ],
+        cart: {
+          productId,
+          productVariants,
+        },
       }),
     });
+
     const data = await res.json();
     return { data: data, success: true, error: null };
   } catch (error) {
@@ -43,15 +44,17 @@ export const addToCart = async ({ productId, productVariant }: CartItem) => {
   }
 };
 
-export const getUserCart = async () // jwt: string,
-: Promise<ResponseApi.Error | ResponseApi.Success<Cart>> => {
+export const getUserCart = async (): Promise<
+  ResponseApi.Error | ResponseApi.Success<Cart>
+> => {
   try {
     const session = await getServerSession(authOptions);
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");
     }
-    const jwt = session?.user.token;
+
+    const jwt = session.user.token;
     const res = await axios.get<Cart>(
       "https://gf-ecommerce.vercel.app/api/cart",
       {

@@ -1,5 +1,5 @@
 import { getUserCart } from "@/lib/cart";
-import React from "react";
+import { getVariantDimension } from "@/lib/products/utils";
 
 const GetCart = async () => {
   const { data, error, success } = await getUserCart();
@@ -12,10 +12,21 @@ const GetCart = async () => {
     <div>
       <h2 className="text-center text-2xl">Koszyk</h2>
       <ul>
-        {data.products.map(({ product, count, price }) => {
+        {data.products.map(({ product, productVariants }) => {
           return (
             <li key={product._id}>
-              {product.name} - {count} szt. - {price} zł
+              <h3>{product.name}</h3>
+              <div>
+                {productVariants.map(({ code, count, price }) => {
+                  const dimension = getVariantDimension(product, code);
+
+                  return (
+                    <div key={code}>
+                      {code} - {dimension} - {count} szt. - {price * count} zł
+                    </div>
+                  );
+                })}
+              </div>
             </li>
           );
         })}
