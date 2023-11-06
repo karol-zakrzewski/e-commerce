@@ -1,6 +1,8 @@
+import { authOptions } from "@/lib/auth/tools";
 import { Cart } from "@/lib/cart/types";
 import { ResponseApi } from "@/lib/types";
 import axios from "axios";
+import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 
 type CartItem = {
@@ -14,6 +16,7 @@ type CartItem = {
 export const addToCart = async ({ productId, productVariants }: CartItem) => {
   try {
     const session = await getSession();
+    console.log("🚀  session:", session);
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");
@@ -46,7 +49,8 @@ export const getUserCart = async (): Promise<
   ResponseApi.Error | ResponseApi.Success<Cart>
 > => {
   try {
-    const session = await getSession();
+    // TODO: replace getServerSession. It a big cost
+    const session = await getServerSession(authOptions);
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");

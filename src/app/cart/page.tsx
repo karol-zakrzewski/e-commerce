@@ -1,3 +1,4 @@
+import { CartItem } from "@/components/products/CartItem";
 import { getUserCart } from "@/lib/cart";
 import { getVariantDimension } from "@/lib/products/utils";
 
@@ -14,18 +15,28 @@ const GetCart = async () => {
       <ul>
         {data.products.map(({ product, productVariants }) => {
           return (
-            <li key={product._id}>
-              <h3>{product.name}</h3>
+            <li
+              key={product._id}
+              className="m-4 w-fit gap-4  rounded-lg border p-4  shadow-lg"
+            >
               <div>
-                {productVariants.map(({ code, count, price }) => {
-                  const dimension = getVariantDimension(product, code);
+                <h3>{product.name}</h3>
+                <div className="divide-y divide-brand-orange">
+                  {productVariants.map(({ code, count, price }) => {
+                    const dimension = getVariantDimension(product, code);
 
-                  return (
-                    <div key={code}>
-                      {code} - {dimension} - {count} szt. - {price * count} zł
-                    </div>
-                  );
-                })}
+                    return (
+                      <CartItem
+                        code={code}
+                        count={count}
+                        dimension={dimension}
+                        price={price}
+                        key={code}
+                        productId={product._id}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </li>
           );
