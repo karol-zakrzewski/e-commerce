@@ -1,12 +1,13 @@
 import { CartItem } from "@/components/products/CartItem";
 import { getUserCart } from "@/lib/cart";
 import { getVariantDimension } from "@/lib/products/utils";
+import { redirect } from "next/navigation";
 
 const GetCart = async () => {
-  const { data, error, success } = await getUserCart();
+  const { data, success } = await getUserCart();
 
   if (!success) {
-    return <div>Error: {error}</div>;
+    redirect("/");
   }
 
   return (

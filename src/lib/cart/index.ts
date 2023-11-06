@@ -68,6 +68,50 @@ export const getUserCart = async (): Promise<
       },
     );
 
+    if (!res.data) {
+      throw Error("Cannot fetch products in cart");
+    }
+
+    return { data: res.data, success: true, error: null };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { data: null, success: false, error: error.message };
+    }
+    return {
+      data: null,
+      success: false,
+      error: "Something went wrong with get cart",
+    };
+  }
+};
+
+export const removeProductVariant = async ({
+  productId,
+  variantCode,
+}: {
+  productId: string;
+  variantCode: number;
+}): Promise<ResponseApi.Error | ResponseApi.Success<Cart>> => {
+  try {
+    const session = await getSession();
+
+    if (!session) {
+      throw Error("Please authenticate. Cannot get auth session");
+    }
+
+    const jwt = session.user.token;
+    const res = await axios.delete<Cart>(
+      "https://gf-ecommerce.vercel.app/api/cart",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${jwt}`,
+        },
+        data: { productId, variantCode },
+      },
+    );
+
     return { data: res.data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {
