@@ -1,7 +1,6 @@
 import { authOptions } from "@/lib/auth/tools";
 import { Cart } from "@/lib/cart/types";
 import { ResponseApi } from "@/lib/types";
-import axios from "axios";
 import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 
@@ -16,7 +15,6 @@ type CartItem = {
 export const addToCart = async ({ productId, productVariants }: CartItem) => {
   try {
     const session = await getSession();
-    console.log("🚀  session:", session);
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");
@@ -40,8 +38,11 @@ export const addToCart = async ({ productId, productVariants }: CartItem) => {
     const data = await res.json();
     return { data: data, success: true, error: null };
   } catch (error) {
-    // @ts-ignore
-    return { data: null, success: true, error: error?.message };
+    if (error instanceof Error) {
+      
+      return { data: null, success: true, error: error.message };
+    }
+    return { data: null, success: true, error: "Something went wrong with adding product to cart",};
   }
 };
 
@@ -57,10 +58,12 @@ export const getUserCart = async (): Promise<
     }
 
     const jwt = session.user.token;
-    const res = await axios.get<Cart>(
+
+    const res = await fetch(
       "https://gf-ecommerce.vercel.app/api/cart",
       {
         method: "GET",
+        cache: "no-store",
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${jwt}`,
@@ -68,11 +71,13 @@ export const getUserCart = async (): Promise<
       },
     );
 
-    if (!res.data) {
+    const data = await res.json()
+
+    if (!data) {
       throw Error("Cannot fetch products in cart");
     }
 
-    return { data: res.data, success: true, error: null };
+    return { data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {
       return { data: null, success: false, error: error.message };
@@ -100,7 +105,8 @@ export const removeProductVariant = async ({
     }
 
     const jwt = session.user.token;
-    const res = await axios.delete<Cart>(
+ 
+    const res = await fetch(
       "https://gf-ecommerce.vercel.app/api/cart",
       {
         method: "DELETE",
@@ -108,11 +114,13 @@ export const removeProductVariant = async ({
           "Content-Type": "application/json",
           authorization: `Bearer ${jwt}`,
         },
-        data: { productId, variantCode },
+        body: JSON.stringify({ productId, variantCode }),
       },
     );
 
-    return { data: res.data, success: true, error: null };
+    
+    const data = await res.json() as Cart
+    return { data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {
       return { data: null, success: false, error: error.message };

@@ -1,6 +1,8 @@
 "use client";
 import { removeProductVariant } from "@/lib/cart";
-import { FaTrash } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FaSpinner, FaTrash } from "react-icons/fa6";
 
 type Props = {
   code: number;
@@ -18,6 +20,8 @@ export const CartItem = ({
   price,
   productId,
 }: Props) => {
+  const { refresh } = useRouter();
+  const [loading, setLoading] = useState(false);
   return (
     <div className="flex items-center gap-4">
       <p>
@@ -27,14 +31,17 @@ export const CartItem = ({
 
       <button
         onClick={async () => {
+          setLoading(true);
           const x = await removeProductVariant({
             productId,
             variantCode: code,
           });
+          setLoading(false);
+          refresh();
         }}
         className="cursor-pointer rounded-full p-4 text-brand-orange transition-all duration-300 hover:bg-slate-100"
       >
-        <FaTrash />
+        {loading ? <FaSpinner /> : <FaTrash />}
       </button>
     </div>
   );
