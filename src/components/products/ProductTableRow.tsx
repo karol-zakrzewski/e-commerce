@@ -53,7 +53,9 @@ export const TableRow = ({
                 alert("Ilość produktów musi być większa od 0");
                 return;
               }
+
               setIsProcessing(true);
+
               const { error } = await addToCart({
                 productId,
                 productVariants: [
@@ -64,13 +66,12 @@ export const TableRow = ({
                 ],
               });
 
+              setIsProcessing(false);
               if (error) {
                 setIsError(true);
                 setTimeout(() => setIsError(false), 3000);
                 return;
               }
-
-              setIsProcessing(false);
             }}
           >
             {isProcessing ? (

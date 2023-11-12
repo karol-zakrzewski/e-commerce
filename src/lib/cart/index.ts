@@ -39,10 +39,13 @@ export const addToCart = async ({ productId, productVariants }: CartItem) => {
     return { data: data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {
-      
       return { data: null, success: true, error: error.message };
     }
-    return { data: null, success: true, error: "Something went wrong with adding product to cart",};
+    return {
+      data: null,
+      success: true,
+      error: "Something went wrong with adding product to cart",
+    };
   }
 };
 
@@ -59,19 +62,16 @@ export const getUserCart = async (): Promise<
 
     const jwt = session.user.token;
 
-    const res = await fetch(
-      "https://gf-ecommerce.vercel.app/api/cart",
-      {
-        method: "GET",
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${jwt}`,
-        },
+    const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${jwt}`,
       },
-    );
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!data) {
       throw Error("Cannot fetch products in cart");
@@ -105,21 +105,17 @@ export const removeProductVariant = async ({
     }
 
     const jwt = session.user.token;
- 
-    const res = await fetch(
-      "https://gf-ecommerce.vercel.app/api/cart",
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({ productId, variantCode }),
-      },
-    );
 
-    
-    const data = await res.json() as Cart
+    const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({ productId, variantCode }),
+    });
+
+    const data = (await res.json()) as Cart;
     return { data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {
