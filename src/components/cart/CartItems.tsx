@@ -24,7 +24,7 @@ export const CartItems = async ({ getUserCart }: Props) => {
             className="m-4 w-fit gap-4  rounded-lg border p-4  shadow-lg"
           >
             <div>
-              <h3>{product.name}</h3>
+              <h3 className="text-lg font-bold uppercase">{product.name}</h3>
               <div className="divide-y divide-brand-orange">
                 {productVariants.map(({ code, count, price }) => {
                   const dimension = getVariantDimension(product, code);

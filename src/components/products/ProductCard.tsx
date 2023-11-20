@@ -1,8 +1,8 @@
+import { Button } from "@/components/ui/Button";
 import { Product } from "@/lib/products/types";
 import { getJoiningType } from "@/lib/products/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { ButtonHTMLAttributes, ReactNode } from "react";
 
 type Props = { product: Product };
 
@@ -42,21 +42,3 @@ export const ProductStatus = ({ isAvailable }: { isAvailable: boolean }) => {
 };
 
 import { FaCartShopping } from "react-icons/fa6";
-
-export const Button = ({
-  children,
-  icon,
-  ...props
-}: {
-  children: ReactNode;
-  icon?: ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>) => {
-  return (
-    <button
-      {...props}
-      className="flex items-center justify-center gap-2 rounded-full bg-brand-orange px-6 py-2 text-white"
-    >
-      {icon} {children}
-    </button>
-  );
-};
