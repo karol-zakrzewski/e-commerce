@@ -16,21 +16,26 @@ export const handlePayment = async (
     const jwt = session.user.token;
 
     const payload = {
+      successUrl: `${window.location}/?payment=success`,
+      errorUrl: `${window.location}/?payment=error`,
       items: cart.products.map(
         ({ product: { name, _id: id }, productVariants }) => {
           const variantsDetails = productVariants.reduce(
-            (acc, variant) => {
+            (acc, variant, index, array) => {
+              const price = variant.price * variant.count;
+
               return {
                 quantity: acc.quantity + variant.count,
-                price: acc.price + variant.price,
+                price: acc.price + price,
               };
             },
             { quantity: 0, price: 0 },
           );
+
           return {
             id,
             name,
-            quantity: variantsDetails.quantity,
+            quantity: 1,
             price: variantsDetails.price,
           };
         },
@@ -51,6 +56,7 @@ export const handlePayment = async (
     );
 
     const data = await res.json();
+    // const data = {};
 
     if (!data) {
       throw Error("Cannot fetch products in cart");
