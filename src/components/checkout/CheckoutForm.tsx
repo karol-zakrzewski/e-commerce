@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/Button";
+import Comobox from "@/components/ui/Comobox";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -20,6 +21,9 @@ export const CheckoutForm = () => {
       >
         <div className="flex w-fit gap-4">
           <div className="flex flex-col gap-4">
+            <fieldset className="flex flex-col gap-2">
+              <Comobox label="Wpisz adres" />
+            </fieldset>
             <fieldset className="flex flex-col gap-2">
               <label htmlFor="city">Miasto</label>
               <input {...register("city")} id="city" />
