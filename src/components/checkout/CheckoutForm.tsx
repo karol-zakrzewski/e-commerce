@@ -1,11 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/Button";
-import Comobox from "@/components/ui/Comobox";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { Combobox } from "@/components/ui/Comobox";
+import { Controller, useForm } from "react-hook-form";
 
 export const CheckoutForm = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, control } = useForm();
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -22,7 +21,17 @@ export const CheckoutForm = () => {
         <div className="flex w-fit gap-4">
           <div className="flex flex-col gap-4">
             <fieldset className="flex flex-col gap-2">
-              <Comobox label="Wpisz adres" />
+              <Controller
+                name="address"
+                control={control}
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { invalid, isTouched, isDirty, error },
+                  formState,
+                }) => {
+                  return <Combobox ref={ref} label="Wpisz adres" />;
+                }}
+              />
             </fieldset>
             <fieldset className="flex flex-col gap-2">
               <label htmlFor="city">Miasto</label>

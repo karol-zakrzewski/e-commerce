@@ -28,7 +28,6 @@ export const Combobox = forwardRef<HTMLInputElement, Props>(
     } = props;
 
     const {
-      ready,
       value,
       setValue,
       suggestions: { status, data },
@@ -142,17 +141,17 @@ export const Combobox = forwardRef<HTMLInputElement, Props>(
 
 Combobox.displayName = "Combobox";
 
-const ComboxWrapper = (props: any) => {
-  const [isSSR, setIsSSR] = useState(false);
-  useEffect(() => {
-    setIsSSR(true);
-  }, []);
+// const ComboxWrapper = (props: Props) => {
+//   const [isSSR, setIsSSR] = useState(false);
+//   useEffect(() => {
+//     setIsSSR(true);
+//   }, []);
 
-  if (isSSR) {
-    return <Combobox {...props} />;
-  }
+//   if (isSSR) {
+//     return <Combobox {...props} />;
+//   }
 
-  return <div>Loading...</div>;
-};
+//   return <div>Loading...</div>;
+// };
 
-export default ComboxWrapper;
+// export default ComboxWrapper;
