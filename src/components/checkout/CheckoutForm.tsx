@@ -4,7 +4,12 @@ import { Combobox } from "@/components/ui/Comobox";
 import { Controller, useForm } from "react-hook-form";
 
 export const CheckoutForm = () => {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      city: "",
+      address: "",
+    },
+  });
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -29,7 +34,13 @@ export const CheckoutForm = () => {
                   fieldState: { invalid, isTouched, isDirty, error },
                   formState,
                 }) => {
-                  return <Combobox ref={ref} label="Wpisz adres" />;
+                  return (
+                    <Combobox
+                      onInputChange={onChange}
+                      ref={ref}
+                      label="Wpisz adres"
+                    />
+                  );
                 }}
               />
             </fieldset>
