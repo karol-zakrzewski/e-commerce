@@ -6,7 +6,6 @@ export const handlePayment = async (
   cart: Cart,
 ): Promise<ResponseApi.Error | ResponseApi.Success<{ url: string }>> => {
   try {
-    // TODO: replace getServerSession. It a big cost
     const session = await getSession();
 
     if (!session) {
@@ -15,11 +14,20 @@ export const handlePayment = async (
 
     const jwt = session.user.token;
 
+    const deliveryPrice = 20 * 100;
+
+    const delivery = {
+      id: "delivery",
+      name: "Koszt dostawy",
+      quantity: 1,
+      price: deliveryPrice,
+    };
+
     const payload = {
-      successUrl: `${window.location}/?payment=success`,
-      errorUrl: `${window.location}/?payment=error`,
-      items: cart.products.map(
-        ({ product: { name, _id: id }, productVariants }) => {
+      successUrl: `${window.origin}/payment?status=success`,
+      errorUrl: `${window.origin}/payment?status=error`,
+      items: cart.products
+        .map(({ product: { name, _id: id }, productVariants }) => {
           const variantsDetails = productVariants.reduce(
             (acc, variant, index, array) => {
               const price = variant.price * variant.count;
@@ -36,10 +44,10 @@ export const handlePayment = async (
             id,
             name,
             quantity: 1,
-            price: variantsDetails.price,
+            price: variantsDetails.price * 100,
           };
-        },
-      ),
+        })
+        .concat(delivery),
     };
 
     const res = await fetch(
