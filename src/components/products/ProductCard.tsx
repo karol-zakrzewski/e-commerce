@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/form/Button";
 import { Product } from "@/lib/products/types";
 import { getJoiningType } from "@/lib/products/utils";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/form/Button";
 import { Cart } from "@/lib/cart/types";
 import { handlePayment } from "@/lib/checkout";
 import { useRouter } from "next/navigation";

@@ -11,7 +11,7 @@ export const Button = ({
   return (
     <button
       {...props}
-      className="flex items-center justify-center gap-2 rounded-full bg-brand-orange px-6 py-2 text-white"
+      className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-tl from-orange-300 to-orange-600 px-6 py-2 text-white"
     >
       {icon} {children}
     </button>
