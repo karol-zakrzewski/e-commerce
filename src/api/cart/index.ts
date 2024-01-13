@@ -1,6 +1,6 @@
-import { authOptions } from "@/lib/auth/tools";
-import { Cart } from "@/lib/cart/types";
-import { ResponseApi } from "@/lib/types";
+import { authOptions } from "@/api/auth/tools";
+import { Cart } from "@/api/cart/types";
+import { ResponseApi } from "@/api/types";
 import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 

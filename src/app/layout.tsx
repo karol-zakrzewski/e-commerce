@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { NextAuthProvider } from "@/app/Providers/NextAuthProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/tools";
+import { authOptions } from "@/api/auth/tools";
 
 const poppins = Poppins({
   subsets: ["latin"],

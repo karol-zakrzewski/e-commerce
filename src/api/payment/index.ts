@@ -1,4 +1,4 @@
-import { ResponseApi } from "@/lib/types";
+import { ResponseApi } from "@/api/types";
 import { getSession } from "next-auth/react";
 
 export const handleCheckPayment = async (): Promise<

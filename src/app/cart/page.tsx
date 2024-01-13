@@ -1,5 +1,5 @@
 import { CartItems } from "@/components/cart/CartItems";
-import { getUserCart } from "@/lib/cart";
+import { getUserCart } from "@/api/cart";
 import Link from "next/link";
 import { Suspense } from "react";
 

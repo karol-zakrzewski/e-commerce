@@ -1,5 +1,5 @@
 "use client";
-import { removeProductVariant } from "@/lib/cart";
+import { removeProductVariant } from "@/api/cart";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaSpinner, FaTrash } from "react-icons/fa6";

@@ -1,6 +1,6 @@
 import { Banner } from "@/components/banner/Banner";
 import { ProductsList } from "@/components/products";
-import { getProducts } from "@/lib/products";
+import { getProducts } from "@/api/products";
 import Script from "next/script";
 
 export default async function Home() {

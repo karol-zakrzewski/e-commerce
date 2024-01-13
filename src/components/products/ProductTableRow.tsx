@@ -1,6 +1,6 @@
 "use client";
-import { addToCart } from "@/lib/cart";
-import { ProductVariant } from "@/lib/products/types";
+import { addToCart } from "@/api/cart";
+import { ProductVariant } from "@/api/products/types";
 import { useRef, useState } from "react";
 import { FaSpinner } from "react-icons/fa6";
 

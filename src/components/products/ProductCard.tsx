@@ -1,6 +1,6 @@
 import { Button } from "@/components/form/Button";
-import { Product } from "@/lib/products/types";
-import { getJoiningType } from "@/lib/products/utils";
+import { Product } from "@/api/products/types";
+import { getJoiningType } from "@/api/products/utils";
 import Image from "next/image";
 import Link from "next/link";
 

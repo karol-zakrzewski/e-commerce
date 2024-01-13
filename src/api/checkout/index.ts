@@ -1,5 +1,5 @@
-import { Cart } from "@/lib/cart/types";
-import { ResponseApi } from "@/lib/types";
+import { Cart } from "@/api/cart/types";
+import { ResponseApi } from "@/api/types";
 import { getSession } from "next-auth/react";
 
 export const handlePayment = async (

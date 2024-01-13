@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/form/Button";
-import { handleCheckPayment } from "@/lib/payment";
+import { handleCheckPayment } from "@/api/payment";
 
 const Payment = ({ searchParams }: any) => {
   console.log(searchParams);

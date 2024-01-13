@@ -1,7 +1,7 @@
 import { CartItem } from "@/components/cart/CartItem";
-import { Cart } from "@/lib/cart/types";
-import { getVariantDimension } from "@/lib/products/utils";
-import { ResponseApi } from "@/lib/types";
+import { Cart } from "@/api/cart/types";
+import { getVariantDimension } from "@/api/products/utils";
+import { ResponseApi } from "@/api/types";
 import { redirect } from "next/navigation";
 
 type Props = {

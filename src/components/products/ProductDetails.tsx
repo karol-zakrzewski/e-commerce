@@ -1,7 +1,7 @@
 import { ProductCard } from "@/components/products/ProductCard";
 import { TableRow } from "@/components/products/ProductTableRow";
-import { Product } from "@/lib/products/types";
-import { ResponseApi } from "@/lib/types";
+import { Product } from "@/api/products/types";
+import { ResponseApi } from "@/api/types";
 
 type Props = {
   getProduct: () => Promise<ResponseApi.Error | ResponseApi.Success<Product>>;

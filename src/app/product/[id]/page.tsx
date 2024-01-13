@@ -1,5 +1,5 @@
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { getProduct } from "@/lib/products";
+import { getProduct } from "@/api/products";
 import { Suspense } from "react";
 import { ProductDetails } from "@/components/products/ProductDetails";
 

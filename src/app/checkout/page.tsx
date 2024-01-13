@@ -1,6 +1,6 @@
 import { ButtonSection } from "@/components/checkout/ButtonSection";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
-import { getUserCart } from "@/lib/cart";
+import { getUserCart } from "@/api/cart";
 
 const Checkout = async () => {
   const cart = await getUserCart();
