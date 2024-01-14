@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import { NextAuthProvider } from "@/app/Providers/NextAuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/api/auth/tools";
+import { Footer } from "@/components/layout/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,14 +28,10 @@ export default async function RootLayout({
       <body className={`${poppins.className} relative`}>
         <NextAuthProvider session={session}>
           <Navigation />
-          <main className="h-[calc(100%-72px)]">{children}</main>
+          {children}
         </NextAuthProvider>
         <Footer />
       </body>
     </html>
   );
 }
-
-export const Footer = () => {
-  return <div className="h-11 bg-red-300">footer</div>;
-};

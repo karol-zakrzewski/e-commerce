@@ -13,18 +13,20 @@ export const ProductCard = ({ product }: Props) => {
 
   return (
     <div className="flex flex-col gap-1.5 rounded-lg p-4 pt-0 text-sm shadow-2xl">
-      <Image
-        width={300}
-        height={300}
-        src={mainImage}
-        alt={product.name}
-        className="w-full object-cover"
-      />
+      <div className="max-w-sm">
+        <Image
+          width={245}
+          height={245}
+          src={mainImage}
+          alt={product.name}
+          className="w-full object-cover"
+        />
+      </div>
       <p className="text-center text-lg font-bold">{name}</p>
       <p>Typ łączenia: {joiningType}</p>
       <p>Zakończenie: {endType}</p>
       <ProductStatus isAvailable={isAvailable} />
-      <Link href={`/product/${id}`}>
+      <Link className="mx-auto" href={`/product/${id}`}>
         <Button icon={<FaCartShopping />}>Zobacz szcegóły</Button>
       </Link>
     </div>
