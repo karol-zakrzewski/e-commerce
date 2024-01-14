@@ -3,10 +3,9 @@ import { Button } from "@/components/form/Button";
 import { FormHeader } from "@/components/form/FormHeader";
 import { Input } from "@/components/form/Input";
 import { Error } from "@/components/form/Error";
-import { signUpFormSchema, userDefaultValues } from "@/components/signUp/conts";
-import { User } from "@/components/signUp/types";
+import { signUpFormSchema, userDefaultValues } from "@/components/auth/conts";
+import { User } from "@/components/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { signUp } from "@/api/auth";
 
