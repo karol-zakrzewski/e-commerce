@@ -1,9 +1,7 @@
-import { User } from "@/components/signUp/types";
 import React from "react";
-import { FieldErrors } from "react-hook-form";
 
 type ErrorProps = {
-  errors: FieldErrors<User>;
+  errors: Record<string, { message?: string }>;
 };
 
 export const Error = ({ errors }: ErrorProps) => {

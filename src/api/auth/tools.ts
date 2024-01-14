@@ -1,8 +1,10 @@
+import { signIn } from "@/api/auth";
 import { AuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
+  pages: { signIn: "/auth/signin" },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -11,29 +13,20 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-
-        const res = await fetch(
-          "https://gf-ecommerce.vercel.app/api/auth/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-          },
-        );
-
-        const user = await res.json();
-
-        if (!user) {
+        if (!credentials) {
           return null;
         }
 
-        return user;
+        const { success, data } = await signIn({
+          email: credentials.email,
+          password: credentials.password,
+        });
+
+        if (!success) {
+          return null;
+        }
+
+        return data;
       },
     }),
   ],
@@ -58,5 +51,6 @@ export const authOptions: AuthOptions = {
       return token;
     },
   },
+
   secret: "password",
 };
