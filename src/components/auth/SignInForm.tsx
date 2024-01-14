@@ -9,8 +9,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useHandleQueryError } from "@/components/auth/hooks/useHandleQueryError";
+import { useRouter } from "next/navigation";
 
 export const SignInForm = () => {
+  const { push } = useRouter();
   const { signIn: signInError } = useHandleQueryError();
   const {
     register,
@@ -40,13 +42,14 @@ export const SignInForm = () => {
       data: { email, password },
     } = result;
 
-    const data = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
     });
 
     clearErrors();
     reset();
+    push("/");
   };
 
   return (
