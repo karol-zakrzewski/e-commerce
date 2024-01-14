@@ -1,4 +1,4 @@
 import { signUpFormSchema } from "@/components/signUp/conts";
 import { z } from "zod";
 
-export type SignUpData = z.infer<typeof signUpFormSchema>;
+export type User = z.infer<typeof signUpFormSchema>;

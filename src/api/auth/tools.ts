@@ -50,7 +50,7 @@ export const authOptions: AuthOptions = {
       }, {});
       return { ...session, user: sanitizedToken, apiToken: token.apiToken };
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user }) {
       if (typeof user !== "undefined") {
         // user has just signed in so the user object is populated
         return user as unknown as JWT;

@@ -1,14 +1,14 @@
-import { SignUpData } from "@/components/signUp/types";
+import { User } from "@/components/signUp/types";
 import React from "react";
 import { FieldErrors } from "react-hook-form";
 
 type ErrorProps = {
-  errors: FieldErrors<SignUpData>;
+  errors: FieldErrors<User>;
 };
 
 export const Error = ({ errors }: ErrorProps) => {
   const [error] = Object.values(errors);
-  if (!error) {
+  if (!error || !error.message) {
     return;
   }
   return (
