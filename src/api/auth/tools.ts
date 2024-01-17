@@ -12,7 +12,7 @@ export const authOptions: AuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials) {
           return null;
         }
@@ -32,25 +32,22 @@ export const authOptions: AuthOptions = {
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    async session({ session, token, user }) {
-      const sanitizedToken = Object.keys(token).reduce((p, c) => {
-        // strip unnecessary properties
-        if (c !== "iat" && c !== "exp" && c !== "jti" && c !== "apiToken") {
-          return { ...p, [c]: token[c] };
-        } else {
-          return p;
-        }
-      }, {});
-      return { ...session, user: sanitizedToken, apiToken: token.apiToken };
+    async session({ token, session }) {
+      // @ts-ignore
+      // const user = token.token.token.token.token.user;
+      session.user = token;
+
+      return session;
     },
-    async jwt({ token, user }) {
-      if (typeof user !== "undefined") {
-        // user has just signed in so the user object is populated
-        return user as unknown as JWT;
-      }
+    async jwt(params) {
+      console.log("🚀  token:", params);
+      // @ts-ignore
+      // const user = token.token.token.token.user;
+      // const email = user.email;
+      // const name = `${user.firstName} ${user.lastName}`;
       return token;
     },
   },
 
-  secret: "password",
+  secret: process.env.NEXT_PUBLIC_NEXT_AUTH_SECRET,
 };
