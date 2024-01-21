@@ -32,20 +32,15 @@ export const authOptions: AuthOptions = {
   ],
   session: { strategy: "jwt" },
   callbacks: {
-    async session({ token, session }) {
-      // @ts-ignore
-      // const user = token.token.token.token.token.user;
-      session.user = token;
-
-      return session;
+    async redirect({ baseUrl }) {
+      return baseUrl;
     },
-    async jwt(params) {
-      console.log("🚀  token:", params);
-      // @ts-ignore
-      // const user = token.token.token.token.user;
-      // const email = user.email;
-      // const name = `${user.firstName} ${user.lastName}`;
-      return token;
+    // @ts-ignore
+    async session(params) {
+      return { ...params.token };
+    },
+    async jwt({ user, token }) {
+      return { ...token, ...user };
     },
   },
 

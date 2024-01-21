@@ -9,15 +9,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useHandleQueryError } from "@/components/auth/hooks/useHandleQueryError";
-import { useRouter } from "next/navigation";
 
 export const SignInForm = () => {
-  const { push } = useRouter();
   const { signIn: signInError } = useHandleQueryError();
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
     reset,
     clearErrors,
@@ -31,16 +28,7 @@ export const SignInForm = () => {
   });
 
   const onSubmit = async (formData: Pick<User, "email" | "password">) => {
-    const result = authFormSchema.safeParse(formData);
-
-    if (!result.success) {
-      setError("root", { message: "Invalid login data", type: "value" });
-      return;
-    }
-
-    const {
-      data: { email, password },
-    } = result;
+    const { email, password } = formData;
 
     await signIn("credentials", {
       email,
@@ -49,7 +37,6 @@ export const SignInForm = () => {
 
     clearErrors();
     reset();
-    push("/");
   };
 
   return (

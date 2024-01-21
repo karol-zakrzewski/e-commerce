@@ -1,6 +1,7 @@
 import { authOptions } from "@/api/auth/tools";
 import { getServerSession } from "next-auth";
-import React from "react";
+import { redirect } from "next/navigation";
+import React, { PropsWithChildren } from "react";
 
 const ProfilePage = () => {
   return <Profile />;
@@ -9,8 +10,20 @@ const ProfilePage = () => {
 export default ProfilePage;
 
 const Profile = async () => {
-  "use client";
   const session = await getServerSession(authOptions);
 
-  return <div>Profile</div>;
+  return (
+    <div>
+      <p>Profile</p>
+      <pre>{session && JSON.stringify(session, null, 4)}</pre>
+    </div>
+  );
+};
+
+const ProtectedServerRoute = async ({ children }: PropsWithChildren) => {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect("/auth/signin");
+  }
+  return { children };
 };

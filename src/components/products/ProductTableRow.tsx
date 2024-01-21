@@ -1,8 +1,6 @@
-"use client";
-import { addToCart } from "@/api/cart";
 import { ProductVariant } from "@/api/products/types";
-import { useRef, useState } from "react";
-import { FaSpinner } from "react-icons/fa6";
+import { AddToCardButton } from "./AddToCardButton";
+import { Suspense } from "react";
 
 export const TableRow = ({
   variant,
@@ -11,11 +9,9 @@ export const TableRow = ({
   variant: ProductVariant;
   productId: string;
 }) => {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const { code, dimensions, price, stock } = variant;
   const [mainDimension] = dimensions;
+
   return (
     <>
       <tr className="border-b bg-white">
@@ -33,7 +29,6 @@ export const TableRow = ({
         <td className="px-6 py-4 text-center">{stock} szt.</td>
         <td className="px-6 py-4 text-center">
           <input
-            ref={inputRef}
             defaultValue={0}
             type="number"
             min={0}
@@ -42,46 +37,9 @@ export const TableRow = ({
           />
         </td>
         <td className="px-6 py-4 text-end">
-          <button
-            className={`rounded-full border-2  bg-white px-6 py-2 font-bold  ${
-              isError
-                ? "border-red-500 text-red-500"
-                : "border-brand-orange text-brand-orange"
-            }`}
-            onClick={async () => {
-              if (!inputRef.current || !Number(inputRef.current.value)) {
-                alert("Ilość produktów musi być większa od 0");
-                return;
-              }
-
-              setIsProcessing(true);
-
-              const { error } = await addToCart({
-                productId,
-                productVariants: [
-                  {
-                    code: variant.code,
-                    count: Number(inputRef.current.value),
-                  },
-                ],
-              });
-
-              setIsProcessing(false);
-              if (error) {
-                setIsError(true);
-                setTimeout(() => setIsError(false), 3000);
-                return;
-              }
-            }}
-          >
-            {isProcessing ? (
-              <FaSpinner className="h-5 w-5 animate-spin" />
-            ) : isError ? (
-              "Błąd"
-            ) : (
-              "Dodaj"
-            )}
-          </button>
+          <Suspense fallback={<>Loading...</>}>
+            <AddToCardButton variant={variant} productId={productId} />
+          </Suspense>
         </td>
       </tr>
     </>
