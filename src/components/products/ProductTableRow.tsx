@@ -1,16 +1,23 @@
+"use client";
 import { ProductVariant } from "@/api/products/types";
 import { AddToCardButton } from "./AddToCardButton";
-import { Suspense } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
-export const TableRow = ({
-  variant,
-  productId,
-}: {
+type TableRowProps = {
   variant: ProductVariant;
   productId: string;
-}) => {
+};
+
+export const TableRow = ({ variant, productId }: TableRowProps) => {
+  const [amount, setAmount] = useState(0);
   const { code, dimensions, price, stock } = variant;
   const [mainDimension] = dimensions;
+
+  const handleAmountChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const amount = Number(value) || 0;
+    setAmount(amount);
+  }, []);
 
   return (
     <>
@@ -34,12 +41,15 @@ export const TableRow = ({
             min={0}
             max={1000}
             className="w-11 border text-center"
+            onChange={handleAmountChange}
           />
         </td>
         <td className="px-6 py-4 text-end">
-          <Suspense fallback={<>Loading...</>}>
-            <AddToCardButton variant={variant} productId={productId} />
-          </Suspense>
+          <AddToCardButton
+            variant={variant}
+            productId={productId}
+            amount={amount}
+          />
         </td>
       </tr>
     </>

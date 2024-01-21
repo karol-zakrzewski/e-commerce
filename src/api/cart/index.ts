@@ -3,6 +3,7 @@ import { Cart } from "@/api/cart/types";
 import { ResponseApi } from "@/api/types";
 import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
+import { revalidatePath } from "next/cache";
 
 type CartItem = {
   productId: string;
@@ -20,12 +21,13 @@ export const addToCart = async ({ productId, productVariants }: CartItem) => {
       throw Error("Please authenticate. Cannot get auth session");
     }
 
-    const jwt = session.user.token;
+    const jwt = session.token;
 
     const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
       method: "POST",
       headers: {
         authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         cart: {
@@ -60,7 +62,7 @@ export const getUserCart = async (): Promise<
       throw Error("Please authenticate. Cannot get auth session");
     }
 
-    const jwt = session.user.token;
+    const jwt = session.token;
 
     const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
       method: "GET",
@@ -104,7 +106,7 @@ export const removeProductVariant = async ({
       throw Error("Please authenticate. Cannot get auth session");
     }
 
-    const jwt = session.user.token;
+    const jwt = session.token;
 
     const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
       method: "DELETE",
@@ -116,6 +118,7 @@ export const removeProductVariant = async ({
     });
 
     const data = (await res.json()) as Cart;
+    revalidatePath("/cart");
     return { data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {

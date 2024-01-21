@@ -7,17 +7,22 @@ import { ProductVariant } from "@/api/products/types";
 type AddToCardBtnProps = {
   variant: ProductVariant;
   productId: string;
+  amount: number;
 };
 
-export const AddToCardButton = ({ variant, productId }: AddToCardBtnProps) => {
+export const AddToCardButton = ({
+  variant,
+  productId,
+  amount,
+}: AddToCardBtnProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const addToCartHandler = async () => {
-    // if (!inputRef.current || !Number(inputRef.current.value)) {
-    //   alert("Ilość produktów musi być większa od 0");
-    //   return;
-    // }
+    if (amount <= 0) {
+      alert("Ilość produktów musi być większa od 0");
+      return;
+    }
 
     setIsProcessing(true);
 
@@ -26,17 +31,17 @@ export const AddToCardButton = ({ variant, productId }: AddToCardBtnProps) => {
       productVariants: [
         {
           code: variant.code,
-          count: 1,
+          count: amount,
         },
       ],
     });
 
-    // setIsProcessing(false);
-    // if (error) {
-    //   setIsError(true);
-    //   setTimeout(() => setIsError(false), 3000);
-    //   return;
-    // }
+    setIsProcessing(false);
+    if (error) {
+      setIsError(true);
+      setTimeout(() => setIsError(false), 3000);
+      return;
+    }
   };
 
   return (
