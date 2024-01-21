@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonSection } from "@/components/checkout/ButtonSection";
 import { Cart } from "@/api/cart/types";
 import { ResponseApi } from "@/api/types";
-import { createOrder } from "@/api/order";
+import { createOrder, updateOrderPayment } from "@/api/order";
 import { handlePayment } from "@/api/checkout";
 import { useRouter } from "next/navigation";
 
@@ -113,18 +113,28 @@ export const CheckoutForm = ({ cart }: Props) => {
               return;
             }
             const formData = getValues();
-            await createOrder({
+
+            const order = await createOrder({
               shippingAddress: formData,
               shippingCost: deliveryPrice,
             });
 
-            const { data, success } = await handlePayment(cart.data);
-
-            if (!success) {
+            if (!order.success) {
               return;
             }
 
-            push(data.url);
+            const payment = await handlePayment(cart.data);
+
+            if (!payment.success) {
+              return;
+            }
+
+            const x = await updateOrderPayment({
+              orderId: order.data.id,
+              paymentSessionId: payment.data.id,
+            });
+
+            push(payment.data.url);
           }}
           cart={cart.data}
         />

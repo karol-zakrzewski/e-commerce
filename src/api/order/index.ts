@@ -15,19 +15,18 @@ type Order = {
 
 export const createOrder = async (
   order: Order,
-): Promise<ResponseApi.Error | ResponseApi.Success<Order>> => {
+  // TODO make better type
+): Promise<ResponseApi.Error | ResponseApi.Success<{ id: string } & Order>> => {
   try {
-    // TODO: replace getServerSession. It a big cost
     const session = await getSession();
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");
     }
 
-    const jwt = session.user.token;
+    const jwt = session.token;
 
-    const res = await fetch("http://localhost:4000/api/order", {
-      // const res = await fetch("https://gf-ecommerce.vercel.app/api/order", {
+    const res = await fetch("https://gf-ecommerce.vercel.app/api/order", {
       method: "POST",
       cache: "no-store",
       headers: {
@@ -51,7 +50,57 @@ export const createOrder = async (
     return {
       data: null,
       success: false,
-      error: "Something went wrong with get cart",
+      error: "Something went wrong with create order",
+    };
+  }
+};
+
+export const updateOrderPayment = async ({
+  orderId,
+  paymentSessionId,
+}: {
+  orderId: string;
+  paymentSessionId: string;
+}): Promise<ResponseApi.Error | ResponseApi.Success<Order>> => {
+  try {
+    const session = await getSession();
+
+    if (!session) {
+      throw Error("Please authenticate. Cannot get auth session");
+    }
+
+    const jwt = session.token;
+
+    const res = await fetch(
+      "https://gf-ecommerce.vercel.app/api/update-order-payment",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({
+          orderId,
+          paymentSessionId,
+        }),
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data) {
+      throw Error("Cannot update order");
+    }
+
+    return { data, success: true, error: null };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { data: null, success: false, error: error.message };
+    }
+    return {
+      data: null,
+      success: false,
+      error: "Something went wrong with update order payment status",
     };
   }
 };

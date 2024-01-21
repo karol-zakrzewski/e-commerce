@@ -2,9 +2,14 @@ import { Cart } from "@/api/cart/types";
 import { ResponseApi } from "@/api/types";
 import { getSession } from "next-auth/react";
 
+type PaymentSession = {
+  id: string;
+  url: string;
+};
+
 export const handlePayment = async (
   cart: Cart,
-): Promise<ResponseApi.Error | ResponseApi.Success<{ url: string }>> => {
+): Promise<ResponseApi.Error | ResponseApi.Success<PaymentSession>> => {
   try {
     const session = await getSession();
 
@@ -12,7 +17,7 @@ export const handlePayment = async (
       throw Error("Please authenticate. Cannot get auth session");
     }
 
-    const jwt = session.user.token;
+    const jwt = session.token;
 
     const deliveryPrice = 20 * 100;
 
@@ -24,6 +29,7 @@ export const handlePayment = async (
     };
 
     const payload = {
+      // TODO pass order id
       successUrl: `${window.origin}/payment?status=success`,
       errorUrl: `${window.origin}/payment?status=error`,
       items: cart.products
@@ -63,8 +69,7 @@ export const handlePayment = async (
       },
     );
 
-    const data = await res.json();
-    // const data = {};
+    const data = (await res.json()) as PaymentSession;
 
     if (!data) {
       throw Error("Cannot fetch products in cart");

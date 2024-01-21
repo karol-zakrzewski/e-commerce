@@ -11,11 +11,10 @@ export const handleCheckPayment = async (): Promise<
       throw Error("Please authenticate. Cannot get auth session");
     }
 
-    const jwt = session.user.token;
+    const jwt = session.token;
 
     const res = await fetch(
-      "http://localhost:4000/api/check-payment",
-      // "https://gf-ecommerce.vercel.app/api/check-payment",
+      "https://gf-ecommerce.vercel.app/api/check-payment",
       {
         method: "POST",
         cache: "no-store",
