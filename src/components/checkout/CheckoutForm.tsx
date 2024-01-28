@@ -115,45 +115,30 @@ export const CheckoutForm = ({ cart }: Props) => {
             const formData = getValues();
 
             const order = await createOrder({
-              shippingAddress: formData,
-              shippingCost: deliveryPrice,
+              shipping: {
+                address: formData,
+                type: "standard",
+              },
             });
 
             if (!order.success) {
               return;
             }
 
-            const payment = await handlePayment(cart.data);
+            const { data, success } = await handlePayment({
+              cart: cart.data,
+              orderId: order.data.id,
+            });
 
-            if (!payment.success) {
+            if (!success) {
               return;
             }
 
-            const x = await updateOrderPayment({
-              orderId: order.data.id,
-              paymentSessionId: payment.data.id,
-            });
-
-            push(payment.data.url);
+            push(data.url);
           }}
           cart={cart.data}
         />
       </div>
     </>
   );
-};
-
-type Order = {
-  products: Product[];
-  paymentStatus: "paid" | "notPaid" | "pending";
-  shippingAddress: {
-    city: string;
-    street: string;
-    zipcode: string;
-    contactPerson: string;
-    phone: string;
-  };
-  shippingCost: number;
-  productsValue: number;
-  totalCost: number;
 };

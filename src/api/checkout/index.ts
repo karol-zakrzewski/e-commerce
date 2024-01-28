@@ -7,9 +7,17 @@ type PaymentSession = {
   url: string;
 };
 
-export const handlePayment = async (
-  cart: Cart,
-): Promise<ResponseApi.Error | ResponseApi.Success<PaymentSession>> => {
+type HandlePaymentProps = {
+  cart: Cart;
+  orderId: string;
+};
+
+export const handlePayment = async ({
+  cart,
+  orderId,
+}: HandlePaymentProps): Promise<
+  ResponseApi.Error | ResponseApi.Success<PaymentSession>
+> => {
   try {
     const session = await getSession();
 
@@ -29,9 +37,9 @@ export const handlePayment = async (
     };
 
     const payload = {
-      // TODO pass order id
-      successUrl: `${window.origin}/payment?status=success`,
-      errorUrl: `${window.origin}/payment?status=error`,
+      orderId,
+      successUrl: `${window.origin}/payment?orderId=${orderId}&status=success`,
+      errorUrl: `${window.origin}/payment?orderId=${orderId}&status=error`,
       items: cart.products
         .map(({ product: { name, _id: id }, productVariants }) => {
           const variantsDetails = productVariants.reduce(

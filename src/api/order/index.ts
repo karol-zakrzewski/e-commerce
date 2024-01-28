@@ -1,24 +1,12 @@
 import { authOptions } from "@/api/auth/tools";
+import { Order } from "@/api/order/types";
 import { ResponseApi } from "@/api/types";
 import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 
-type Order = {
-  // TODO: product without ordered variants {products: {product: Product, variants:Variants[]}[]}
-  shippingAddress: {
-    city: string;
-    street: string;
-    zipcode: string;
-    contactPerson: string;
-    phone: string;
-  };
-  shippingCost: number;
-};
-
 export const createOrder = async (
-  order: Order,
-  // TODO make better type
-): Promise<ResponseApi.Error | ResponseApi.Success<{ id: string } & Order>> => {
+  shippingData: Pick<Order, "shipping">,
+): Promise<ResponseApi.Error | ResponseApi.Success<Order>> => {
   try {
     const session = await getSession();
 
@@ -35,7 +23,7 @@ export const createOrder = async (
         "Content-Type": "application/json",
         authorization: `Bearer ${jwt}`,
       },
-      body: JSON.stringify(order),
+      body: JSON.stringify(shippingData),
     });
 
     const data = await res.json();
@@ -65,7 +53,7 @@ export const updateOrderPayment = async ({
   paymentSessionId: string;
 }): Promise<ResponseApi.Error | ResponseApi.Success<Order>> => {
   try {
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
 
     if (!session) {
       throw Error("Please authenticate. Cannot get auth session");
@@ -107,10 +95,14 @@ export const updateOrderPayment = async ({
   }
 };
 
-export const getOrder = async (): Promise<
-  ResponseApi.Error | ResponseApi.Success<Order>
-> => {
+export const getOrder = async (
+  orderId?: string,
+): Promise<ResponseApi.Error | ResponseApi.Success<Order>> => {
   try {
+    if (!orderId) {
+      throw Error("Invalid order id");
+    }
+
     const session = await getServerSession(authOptions);
 
     if (!session) {
@@ -119,19 +111,22 @@ export const getOrder = async (): Promise<
 
     const jwt = session.token;
 
-    const res = await fetch("https://gf-ecommerce.vercel.app/api/order", {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${jwt}`,
+    const res = await fetch(
+      `https://gf-ecommerce.vercel.app/api/order/${orderId}`,
+      {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${jwt}`,
+        },
       },
-    });
+    );
 
     const data = await res.json();
 
     if (!data) {
-      throw Error("Cannot fetch products in cart");
+      throw Error("Cannot fetch order");
     }
 
     return { data, success: true, error: null };

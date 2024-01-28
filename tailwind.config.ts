@@ -18,6 +18,9 @@ const config: Config = {
           orange: "#FF6900",
         },
       },
+      height: {
+        container: "calc(100% - 72px)",
+      },
     },
   },
   plugins: [],
