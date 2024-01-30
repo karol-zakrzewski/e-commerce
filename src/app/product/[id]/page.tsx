@@ -1,8 +1,6 @@
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { getProduct, getProducts } from "@/api/products";
-import { Suspense } from "react";
 import { ProductDetails } from "@/components/products/ProductDetails";
-import { Product } from "@/api/products/types";
 import { notFound } from "next/navigation";
 
 const LINKS = [

@@ -10,9 +10,7 @@ export const ProductDetails = async ({ product }: Props) => {
   return (
     <div className="my-6 flex items-start gap-6">
       {product && (
-        <div className="w-1/3">
-          <ProductCard product={product} />
-        </div>
+        <div className="w-1/3">{<ProductCard product={product} />}</div>
       )}
       <div className="flex flex-col gap-4">
         <h2 className="text-3xl">{product.name}</h2>

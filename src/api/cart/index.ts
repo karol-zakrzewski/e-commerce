@@ -1,9 +1,6 @@
-import { authOptions } from "@/api/auth/tools";
 import { Cart } from "@/api/cart/types";
 import { ResponseApi } from "@/api/types";
-import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
-import { revalidatePath } from "next/cache";
 
 type CartItem = {
   productId: string;
@@ -77,7 +74,7 @@ export const removeProductVariant = async ({
     });
 
     const data = (await res.json()) as Cart;
-    revalidatePath("/cart");
+
     return { data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {

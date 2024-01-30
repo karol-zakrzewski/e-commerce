@@ -1,5 +1,5 @@
 "use client";
-import React, { MutableRefObject, useState } from "react";
+import { useState } from "react";
 import { addToCart } from "@/api/cart";
 import { FaSpinner } from "react-icons/fa6";
 import { ProductVariant } from "@/api/products/types";
