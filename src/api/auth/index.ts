@@ -23,7 +23,7 @@ export const signIn = async ({
     );
 
     const { data, success, error } = await res.json();
-    console.log("🚀  data, success, error:", data, success, error);
+
     if (error || !success) {
       throw new Error(data.msg);
     }

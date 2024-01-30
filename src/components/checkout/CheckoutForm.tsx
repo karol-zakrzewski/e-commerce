@@ -1,12 +1,11 @@
 "use client";
-import { Product } from "@/api/products/types";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonSection } from "@/components/checkout/ButtonSection";
 import { Cart } from "@/api/cart/types";
 import { ResponseApi } from "@/api/types";
-import { createOrder, updateOrderPayment } from "@/api/order";
+import { createOrder } from "@/api/order";
 import { handlePayment } from "@/api/checkout";
 import { useRouter } from "next/navigation";
 

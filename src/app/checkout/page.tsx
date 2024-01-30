@@ -1,4 +1,3 @@
-import { ButtonSection } from "@/components/checkout/ButtonSection";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { getUserCart } from "@/api/cart";
 

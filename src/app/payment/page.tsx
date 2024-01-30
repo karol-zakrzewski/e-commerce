@@ -1,4 +1,4 @@
-import { getOrder, updateOrderPayment } from "@/api/order";
+import { getOrder, updateOrderPayment } from "@/api/order/server";
 import { Card } from "@/components/Card";
 import { SuccessHeader } from "@/components/payment/SuccessHeader";
 import Image from "next/image";
@@ -29,7 +29,7 @@ const Payment = async ({ searchParams }: PaymentProps) => {
   }
 
   return (
-    <div className="h-container flex w-full flex-col items-center justify-center gap-4 bg-slate-50">
+    <div className="flex h-container w-full flex-col items-center justify-center gap-4 bg-slate-50">
       <SuccessHeader />
       <Card>
         {data.products.map(({ product, productVariants }) => {
