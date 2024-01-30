@@ -1,20 +1,12 @@
 import { ProductCard } from "@/components/products/ProductCard";
 import { TableRow } from "@/components/products/ProductTableRow";
 import { Product } from "@/api/products/types";
-// import { ResponseApi } from "@/api/types";
 
 type Props = {
   product: Product;
 };
 
 export const ProductDetails = async ({ product }: Props) => {
-  console.log("🚀  product:", product);
-  // const { data: product, success, error } = await getProduct();
-
-  // if (!success) {
-  //   return <div>Error: {error}</div>;
-  // }
-
   return (
     <div className="my-6 flex items-start gap-6">
       {product && (

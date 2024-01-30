@@ -1,5 +1,5 @@
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
-import { getUserCart } from "@/api/cart";
+import { getUserCart } from "@/api/cart/server";
 
 const Checkout = async () => {
   const cart = await getUserCart();

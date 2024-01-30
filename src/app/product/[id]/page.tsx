@@ -16,7 +16,6 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
   if (!success || error) {
     return notFound();
   }
-  console.log("🚀  product:", product);
   return (
     <div className="px-6">
       <Breadcrumb links={LINKS} />
