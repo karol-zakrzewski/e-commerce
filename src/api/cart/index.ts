@@ -1,6 +1,8 @@
+"use server";
 import { Cart } from "@/api/cart/types";
 import { ResponseApi } from "@/api/types";
 import { getSession } from "next-auth/react";
+import { revalidatePath } from "next/cache";
 
 type CartItem = {
   productId: string;
@@ -22,6 +24,7 @@ export const addToCart = async ({ productId, productVariants }: CartItem) => {
 
     const res = await fetch("https://gf-ecommerce.vercel.app/api/cart", {
       method: "POST",
+      cache: "no-cache",
       headers: {
         authorization: `Bearer ${jwt}`,
         "Content-Type": "application/json",
@@ -35,6 +38,7 @@ export const addToCart = async ({ productId, productVariants }: CartItem) => {
     });
 
     const data = await res.json();
+    revalidatePath("/cart", "page");
     return { data: data, success: true, error: null };
   } catch (error) {
     if (error instanceof Error) {
