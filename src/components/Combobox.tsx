@@ -11,12 +11,26 @@ type Props = {
   type?: "default" | "ecommerce" | "registration";
   label: string;
   value: any | null;
-  onChange: (value: any) => void;
   onInputChange?: () => void;
   error?: string;
   noOptionsMessage?: string;
   disabled?: boolean;
-  loadOptions: (value: string) => Promise<Place[]>;
+  // loadOptions: (value: string) => Promise<Place[]>;
+};
+
+const fetchUsers = async (query: string) => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+
+  const data = await res.json();
+
+  const options = data.map((user: any) => {
+    return {
+      label: user.name,
+      value: user.address,
+    };
+  });
+
+  return options;
 };
 
 const variantMap = {
@@ -44,13 +58,12 @@ export const Combobox = forwardRef<HTMLInputElement, Props>(
     const {
       type = "default",
       label,
-      onChange,
       value,
       error,
       onInputChange,
       noOptionsMessage,
       disabled,
-      loadOptions,
+      // loadOptions,
     } = props;
 
     const [places, setPlaces] = useState<Place[]>([]);
@@ -72,7 +85,7 @@ export const Combobox = forwardRef<HTMLInputElement, Props>(
         <ComboboxHeadlessUi
           disabled={disabled}
           value={value}
-          onChange={onChange}
+          onChange={() => {}}
         >
           <ComboboxHeadlessUi.Label className="font-semibold">
             {label}
@@ -92,14 +105,11 @@ export const Combobox = forwardRef<HTMLInputElement, Props>(
                   onInputChange();
                 }
 
-                if (loadOptions) {
-                  debounce(async () => {
-                    const data = await loadOptions(event.target.value);
-                    console.log("🚀  data:", data);
+                debounce(async () => {
+                  const data = await fetchUsers(event.target.value);
 
-                    setPlaces(data);
-                  });
-                }
+                  setPlaces(data);
+                });
               }}
             />
 
