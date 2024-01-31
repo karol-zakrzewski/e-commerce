@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 export const getSession = async (): Promise<Session | null> => {
   try {
-    const res = await fetch(`http://localhost:3000/api/session`, {
+    const res = await fetch(`/api/session`, {
       method: "GET",
       headers: headers(),
     });

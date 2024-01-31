@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { addToCart } from "@/api/cart";
 import { FaSpinner } from "react-icons/fa6";
 import { ProductVariant } from "@/api/products/types";
+import { addToCart } from "@/components/products/serverAction";
 
 type AddToCardBtnProps = {
   variant: ProductVariant;
@@ -25,23 +25,13 @@ export const AddToCardButton = ({
     }
 
     setIsProcessing(true);
-
-    const { error } = await addToCart({
-      productId,
-      productVariants: [
-        {
-          code: variant.code,
-          count: amount,
-        },
-      ],
-    });
-
+    const response = await addToCart(productId, [
+      {
+        code: variant.code,
+        count: amount,
+      },
+    ]);
     setIsProcessing(false);
-    if (error) {
-      setIsError(true);
-      setTimeout(() => setIsError(false), 3000);
-      return;
-    }
   };
 
   return (

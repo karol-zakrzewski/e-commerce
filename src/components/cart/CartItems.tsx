@@ -3,12 +3,9 @@ import { Cart } from "@/api/cart/types";
 import { getVariantDimension } from "@/api/products/utils";
 import { ResponseApi } from "@/api/types";
 import { redirect } from "next/navigation";
+import { getUserCart } from "@/api/cart/server";
 
-type Props = {
-  getUserCart: () => Promise<ResponseApi.Error | ResponseApi.Success<Cart>>;
-};
-
-export const CartItems = async ({ getUserCart }: Props) => {
+export const CartItems = async () => {
   const { data, success } = await getUserCart();
 
   if (!success) {
